@@ -4,7 +4,7 @@ ifeq ($(UNAME),Darwin)
 CC=gcc-4.9
 endif
 
-SOURCES=mean.c hello.c
+SOURCES=sort2.c sort.c mean.c hello.c
 
 EXECUTABLES=$(SOURCES:.c=.out)
 
