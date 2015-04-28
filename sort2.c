@@ -13,7 +13,6 @@ void merge (int *a, int n, int m) {
              : a[j] < a[i] ? a[j++]
              :               a[i++];
     }
-    #pragma omp parallel for 
     for (i = 0; i < n; i++) {
         a[i] = x[i];
     }
@@ -24,18 +23,18 @@ void merge_sort (int *a, int n) {
     if (n < 2)
         return;
     int m = n / 2;
-    #pragma omp parallel sections
+    #pragma omp parallel
     {
-        #pragma omp section
+        #pragma omp single
         {
+            #pragma omp task
             merge_sort(a, m);
-        }
-        #pragma omp section
-        {
+            #pragma omp task
             merge_sort(a + m, n - m);
+            #pragma omp taskwait
+            merge(a, n, m);
         }
     }
-    merge(a, n, m);
 }
  
 int main (int argc, char** argv) {
